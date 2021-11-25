@@ -1,0 +1,282 @@
+{
+    "openapi":"3.0.2",
+    "info": {
+        "title":"Golang RESTFul API",
+        "description":"API Spec for Golang RESTful API",
+        "version":"1.0"
+    },
+    "servers": [
+        {"url":"http://localhost:8080/api"}
+    ],
+    "paths": {
+        "/user":{
+            "get":{
+                "security": [
+                    {
+                        "UserAuth":[]
+                    }
+                ],
+                "tags":["User API"],
+                "description":"List all user",
+                "summary":"List all user",
+                "responses":{
+                    "200":{
+                        "description":"Success get all user",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "code":{
+                                            "type":"number"
+                                        },
+                                        "status":{
+                                            "type":"string"
+                                        },
+                                        "data":{
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post":{
+                "security": [
+                    {
+                        "UserAuth":[]
+                    }
+                ],
+                "tags": ["User API"],
+                "description": "Create new user",
+                "summary": "Create new user",
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/CreateUpdateUser"
+                            }
+                        }
+                    }                    
+                },
+                "responses": {
+                    "200":{
+                        "description": "Success create new user",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "code":{
+                                            "type": "number"
+                                        },
+                                        "status":{
+                                            "type": "string"
+                                        },
+                                        "data":{
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }   
+            }
+        },
+        "/user/{userId}":{
+            "get":{
+                "security": [
+                    {
+                        "UserAuth":[]
+                    }
+                ],
+                "tags": ["User API"],
+                "description": "Get user by id",
+                "summary": "Get user by id",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "user id",
+                        "required": true,
+                        "schema":{
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Success get user by id",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "code":{
+                                            "type": "number"
+                                        },
+                                        "status":{
+                                            "type": "string"
+                                        },
+                                        "data":{
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put":{
+                "security": [
+                    {
+                        "UserAuth":[]
+                    }
+                ],
+                "tags": ["User API"],
+                "description": "Update user",
+                "summary": "Update user",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "user id",
+                        "required": true,
+                        "schema":{
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "requestBody":{
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/CreateUpdateUser"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200":{
+                        "description": "Success update user",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "code" : {
+                                            "type": "number"
+                                        },
+                                        "status":{
+                                            "type": "string"
+                                        },
+                                        "data":{
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "security": [
+                    {
+                        "UserAuth":[]
+                    }
+                ],
+                "tags": ["User API"],
+                "description": "Delete user",
+                "summary": "Delete user",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "user id",
+                        "required": true,
+                        "schema":{
+                            "type": "integer",
+                            "minimum": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Success delete user",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties": {
+                                        "code":{
+                                            "type": "number"
+                                        },
+                                        "status":{
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components":{
+        "securitySchemes": {
+            "UserAuth":{
+                "type": "apiKey",
+                "in": "header",
+                "name": "X-API-Key",
+                "description": "Authentication for Golang RESTful API"
+            }
+        },
+        "schemas":{
+            "User":{
+                "type":"object",
+                "properties":{
+                    "id":{
+                        "type":"number"
+                    },
+                    "firstname":{
+                        "type":"string"
+                    },
+                    "lastname":{
+                        "type":"string"
+                    },
+                    "email":{
+                        "type":"string"
+                    },
+                    "birth_date":{
+                        "type":"string"
+                    }
+                }
+            },
+            "CreateUpdateUser":{
+                "type": "object",
+                "properties": {
+                    "firstname":{
+                        "type": "string"
+                    },
+                    "lastname":{
+                        "type": "string"
+                    },
+                    "email":{
+                        "type": "string"
+                    },
+                    "birth_date":{
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
